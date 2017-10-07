@@ -1,24 +1,19 @@
 package com.santamaria.shakecontrolspotify
 
 import android.content.Context
-import android.content.Context.MODE_PRIVATE
-import android.content.Intent
 import android.content.SharedPreferences
 import android.hardware.Sensor
 import android.hardware.SensorManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Vibrator
-import android.support.annotation.IntegerRes
-import android.util.Log
-import android.view.KeyEvent
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.widget.Switch
-import android.widget.Toast
 import com.google.android.gms.ads.AdRequest
-import com.santamaria.shakecontrolspotify.R.id.idShowMessageSwitch
-import com.santamaria.shakecontrolspotify.R.id.idVibrateSwith
 import com.santamaria.shakecontrolspotify.ShakeDetector.OnShakeListener
 import com.google.android.gms.ads.AdView
+import com.santamaria.shakecontrolspotify.R.id.*
 import java.util.*
 import kotlin.concurrent.thread
 
@@ -48,7 +43,6 @@ class MainActivity : AppCompatActivity() {
     var isLoading = false
 
     //Ad variables
-    private val TAG = "MainActivity"
     private var mAdView: AdView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -104,8 +98,6 @@ class MainActivity : AppCompatActivity() {
             val TIME_LAPSE = 1000
 
             while(true){
-
-
 
                 if (list.size == 2){
 
@@ -200,9 +192,24 @@ class MainActivity : AppCompatActivity() {
         } else if (count == 3 ) {
             list.add(ActionRegister(3, time))
         }
-
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+
+        var menuInflater = MenuInflater(this)
+        menuInflater.inflate(R.menu.upper_right_items, menu)
+
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+
+        if (item != null && item.itemId == exit_menu_id) {
+            helperClass.alertDialogClose()
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
     public override fun onResume() {
         super.onResume()
         // Register the Session Manager Listener onResume
