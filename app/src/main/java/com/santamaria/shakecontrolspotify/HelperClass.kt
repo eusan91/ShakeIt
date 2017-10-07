@@ -1,19 +1,11 @@
 package com.santamaria.shakecontrolspotify
 
-import android.app.ActivityManager
-import android.app.AlertDialog
 import android.content.Context
-import android.content.Context.ACTIVITY_SERVICE
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Vibrator
 import android.view.KeyEvent
 import android.widget.Toast
-import java.util.concurrent.Executors
-import java.util.concurrent.TimeUnit
-import javax.xml.datatype.DatatypeConstants.MINUTES
-
-
 
 
 /**

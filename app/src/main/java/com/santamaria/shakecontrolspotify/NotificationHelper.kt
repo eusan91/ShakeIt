@@ -7,15 +7,11 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Intent
 
-
-
-
-
 /**
  * Created by Santamaria on 07/10/2017.
  */
 
-class NotificationHelper(var context:Context){
+class NotificationHelper(private var context:Context){
 
     // Sets an ID for the notification
     private val mNotificationId = 21

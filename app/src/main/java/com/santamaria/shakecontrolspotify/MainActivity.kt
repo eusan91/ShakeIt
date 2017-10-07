@@ -28,19 +28,19 @@ class MainActivity : AppCompatActivity() {
     private var mShakeDetector: ShakeDetector? = null
 
     //Boolean states switch views variables
-    var isVibrateOn = false
-    var isShowMessageOn = false
+    var isVibrateOn = true
+    var isShowMessageOn = true
 
     //Switch view variables
     private lateinit var vibrateSwitch : Switch
     private lateinit var showMessageSwitch : Switch
 
     //SharedPreferences variables
-    val SharedPreferencesName = "SHAKE_IT"
-    val keyNameVibrate = "VIBRATE_STATE"
-    val keyNameShowMessage = "SM_STATE"
-    var sharedPreferences:SharedPreferences ?= null
-    var isLoading = false
+    private val SharedPreferencesName = "SHAKE_IT"
+    private val keyNameVibrate = "VIBRATE_STATE"
+    private val keyNameShowMessage = "SM_STATE"
+    private var sharedPreferences:SharedPreferences ?= null
+    private var isLoading = false
 
     //Ad variables
     private var mAdView: AdView? = null
@@ -190,7 +190,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun handleShakeEvent(count: Int, time: Long) {
-        //Log.d("ema", count.toString() + " " + time.toString())
+       
         if (count == 2 ) {
             list.add(ActionRegister(2, time))
         } else if (count == 3 ) {

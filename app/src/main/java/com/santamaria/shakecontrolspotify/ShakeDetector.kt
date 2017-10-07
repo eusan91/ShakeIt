@@ -5,8 +5,6 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 
-
-
 /**
  * Created by Santamaria on 06/10/2017.
  */
