@@ -1,7 +1,9 @@
 package com.santamaria.shakecontrolspotify
 
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import android.content.Intent
+import android.content.SharedPreferences
 import android.hardware.Sensor
 import android.hardware.SensorManager
 import android.support.v7.app.AppCompatActivity
@@ -18,19 +20,31 @@ import com.santamaria.shakecontrolspotify.ShakeDetector.OnShakeListener
 
 class MainActivity : AppCompatActivity() {
 
+    //Sensor variables
     private var mSensorManager: SensorManager? = null
     private var mAccelerometer: Sensor? = null
     private var mShakeDetector: ShakeDetector? = null
 
+    //Boolean states switch views variables
     private var isVibrateOn = false
     private var isShowMessageOn = false
 
+    //Switch view variables
     private lateinit var vibrateSwitch : Switch
     private lateinit var showMessageSwitch : Switch
+
+    //SharedPreferences variables
+    val SharedPreferencesName = "SHAKE_IT"
+    val keyNameVibrate = "VIBRATE_STATE"
+    val keyNameShowMessage = "SM_STATE"
+    var sharedPreferences:SharedPreferences ?= null
+    var isLoading = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        sharedPreferences = getSharedPreferences(SharedPreferencesName, Context.MODE_PRIVATE)
 
         vibrateSwitch = findViewById(idVibrateSwith) as Switch
         showMessageSwitch = findViewById(idShowMessageSwitch)  as Switch
@@ -38,12 +52,22 @@ class MainActivity : AppCompatActivity() {
         vibrateSwitch.setOnCheckedChangeListener { compoundButton, b ->
 
             isVibrateOn = vibrateSwitch.isChecked
+
+            if (!isLoading)
+                saveStateCheckView(isVibrateOn, keyNameVibrate)
+
         }
 
         showMessageSwitch.setOnCheckedChangeListener { compoundButton, b ->
 
             isShowMessageOn = showMessageSwitch.isChecked
+
+            if (!isLoading)
+                saveStateCheckView(isShowMessageOn, keyNameShowMessage)
+
         }
+
+        loadCheckViewStates()
 
         // ShakeDetector initialization
         mSensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
@@ -58,6 +82,28 @@ class MainActivity : AppCompatActivity() {
         })
 
         addIconActionBar()
+    }
+
+    private fun saveStateCheckView(currentState:Boolean, key:String){
+
+        var editor = sharedPreferences!!.edit()
+        editor.putBoolean(key, currentState)
+        editor.commit()
+
+    }
+
+    private fun loadCheckViewStates(){
+
+        isLoading = true
+
+        sharedPreferences!!.getBoolean(keyNameVibrate, false)
+        isShowMessageOn = sharedPreferences!!.getBoolean(keyNameShowMessage, false)
+
+
+        vibrateSwitch.isChecked = sharedPreferences!!.getBoolean(keyNameVibrate, false)
+        showMessageSwitch.isChecked = sharedPreferences!!.getBoolean(keyNameShowMessage, false)
+
+        isLoading = false
     }
 
     private fun addIconActionBar(){
@@ -111,13 +157,6 @@ class MainActivity : AppCompatActivity() {
         var intent = Intent(Intent.ACTION_MEDIA_BUTTON)
 
         intent.`package` = "com.spotify.music"
-        synchronized (this) {
-            intent.putExtra(Intent.EXTRA_KEY_EVENT, KeyEvent(KeyEvent.ACTION_DOWN, keyCode))
-            applicationContext.sendOrderedBroadcast(intent, null)
-            intent.putExtra(Intent.EXTRA_KEY_EVENT, KeyEvent(KeyEvent.ACTION_UP, keyCode))
-            applicationContext.sendOrderedBroadcast(intent, null)
-
-        }
         synchronized (this) {
             intent.putExtra(Intent.EXTRA_KEY_EVENT, KeyEvent(KeyEvent.ACTION_DOWN, keyCode))
             applicationContext.sendOrderedBroadcast(intent, null)
