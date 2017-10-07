@@ -21,7 +21,7 @@ class ShakeDetector : SensorEventListener {
     }
 
     interface OnShakeListener {
-        fun onShake(count: Int)
+        fun onShake(count: Int, time: Long)
     }
 
     override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {
@@ -46,12 +46,12 @@ class ShakeDetector : SensorEventListener {
             if (gForce > SHAKE_THRESHOLD_GRAVITY) {
 
                 val now = System.currentTimeMillis()
-                // ignore shake events too close to each other (300ms)
+                // ignore shake events too close to each other (200ms)
                 if (mShakeTimestamp + SHAKE_SLOP_TIME_MS > now) {
                     return
                 }
 
-                // reset the shake count after 1 seconds of no shakes
+                // reset the shake count after 1.1 seconds of no shakes
                 if (mShakeTimestamp + SHAKE_COUNT_RESET_TIME_MS < now) {
                     mShakeCount = 0
                 }
@@ -59,7 +59,7 @@ class ShakeDetector : SensorEventListener {
                 mShakeTimestamp = now
                 mShakeCount++
 
-                mListener!!.onShake(mShakeCount)
+                mListener!!.onShake(mShakeCount, now)
             }
         }
     }
@@ -67,6 +67,6 @@ class ShakeDetector : SensorEventListener {
     companion object {
         private val SHAKE_THRESHOLD_GRAVITY = 2f
         private val SHAKE_SLOP_TIME_MS = 200
-        private val SHAKE_COUNT_RESET_TIME_MS = 1300
+        private val SHAKE_COUNT_RESET_TIME_MS = 1100
     }
 }

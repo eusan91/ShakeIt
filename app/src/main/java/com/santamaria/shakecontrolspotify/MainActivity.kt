@@ -9,6 +9,8 @@ import android.hardware.SensorManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Vibrator
+import android.support.annotation.IntegerRes
+import android.util.Log
 import android.view.KeyEvent
 import android.widget.Switch
 import android.widget.Toast
@@ -17,10 +19,8 @@ import com.santamaria.shakecontrolspotify.R.id.idShowMessageSwitch
 import com.santamaria.shakecontrolspotify.R.id.idVibrateSwith
 import com.santamaria.shakecontrolspotify.ShakeDetector.OnShakeListener
 import com.google.android.gms.ads.AdView
-
-
-
-
+import java.util.*
+import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
 
@@ -84,8 +84,8 @@ class MainActivity : AppCompatActivity() {
         mShakeDetector = ShakeDetector()
         mShakeDetector!!.setOnShakeListener(object : OnShakeListener {
 
-            override fun onShake(count: Int) {
-                handleShakeEvent(count)
+            override fun onShake(count: Int, time: Long) {
+                handleShakeEvent(count, time)
             }
         })
 
@@ -95,6 +95,57 @@ class MainActivity : AppCompatActivity() {
         mAdView = findViewById(R.id.adView) as AdView
         val adRequest = AdRequest.Builder().build()
         mAdView!!.loadAd(adRequest)
+
+        thread(start = true) {
+
+            val TIME_LAPSE = 1000
+
+            while(true){
+
+
+
+                if (list.size == 2){
+
+                    if ((list.get(1).time - list.get(0).time) < TIME_LAPSE){
+
+                        if (list.get(1).actionValue == 2){
+                            nextSong()
+                        } else {
+                            previousSong()
+                        }
+                    } else {
+                        if (list.get(0).actionValue == 2){
+                            nextSong()
+                        } else {
+                            previousSong()
+                        }
+                    }
+
+                    list.clear()
+
+                } else {
+
+                    var now = System.currentTimeMillis()
+
+                    if (list.size == 1){
+
+                        if ((now - list.get(0).time) > TIME_LAPSE-100 ){
+                            if (list.get(0).actionValue == 2){
+                                nextSong()
+                            } else {
+                                previousSong()
+                            }
+
+                            list.clear()
+                        }
+
+
+
+                    }
+                }
+            }
+        }
+
     }
 
     private fun saveStateCheckView(currentState:Boolean, key:String){
@@ -128,21 +179,46 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun handleShakeEvent(count: Int) {
+    var list = LinkedList<ActionRegister>()
+
+    inner class ActionRegister{
+        var actionValue: Int = 0
+        var time: Long = 0
+
+        constructor(actionValue:Int, time:Long){
+            this.actionValue = actionValue
+            this.time = time
+        }
+    }
+
+    private fun handleShakeEvent(count: Int, time: Long) {
+
+        Log.d("ema", count.toString())
 
         if (count == 2 ) {
-            nextSong()
+            /*nextSong()
+
+            if (isVibrateOn){
+                vibrate()
+            }
+
+            if (isShowMessageOn){
+                Toast.makeText(applicationContext, "Next Song", Toast.LENGTH_SHORT).show()
+            }*/
+            list.add(ActionRegister(2, time))
 
         } else if (count == 3 ) {
+            /*previousSong()
             previousSong()
-        }
 
-        if (isVibrateOn){
-            vibrate()
-        }
+            if (isVibrateOn){
+                vibrate()
+            }
 
-        if (isShowMessageOn){
-            Toast.makeText(applicationContext, "Next Song", Toast.LENGTH_SHORT).show()
+            if (isShowMessageOn){
+                Toast.makeText(applicationContext, "PPrevious Song", Toast.LENGTH_SHORT).show()
+            }*/
+            list.add(ActionRegister(3, time))
         }
 
     }
@@ -161,6 +237,14 @@ class MainActivity : AppCompatActivity() {
             applicationContext.sendOrderedBroadcast(intent, null)
 
         }
+
+        if (isVibrateOn){
+            vibrate()
+        }
+
+        if (isShowMessageOn){
+            Toast.makeText(applicationContext, "Next Song", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun previousSong(){
@@ -176,6 +260,14 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra(Intent.EXTRA_KEY_EVENT, KeyEvent(KeyEvent.ACTION_UP, keyCode))
             applicationContext.sendOrderedBroadcast(intent, null)
 
+        }
+
+        if (isVibrateOn){
+            vibrate()
+        }
+
+        if (isShowMessageOn){
+            Toast.makeText(applicationContext, "PPrevious Song", Toast.LENGTH_SHORT).show()
         }
     }
 
