@@ -138,9 +138,6 @@ class MainActivity : AppCompatActivity() {
 
                             list.clear()
                         }
-
-
-
                     }
                 }
             }
@@ -196,28 +193,8 @@ class MainActivity : AppCompatActivity() {
         Log.d("ema", count.toString())
 
         if (count == 2 ) {
-            /*nextSong()
-
-            if (isVibrateOn){
-                vibrate()
-            }
-
-            if (isShowMessageOn){
-                Toast.makeText(applicationContext, "Next Song", Toast.LENGTH_SHORT).show()
-            }*/
             list.add(ActionRegister(2, time))
-
         } else if (count == 3 ) {
-            /*previousSong()
-            previousSong()
-
-            if (isVibrateOn){
-                vibrate()
-            }
-
-            if (isShowMessageOn){
-                Toast.makeText(applicationContext, "PPrevious Song", Toast.LENGTH_SHORT).show()
-            }*/
             list.add(ActionRegister(3, time))
         }
 
@@ -243,7 +220,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (isShowMessageOn){
-            Toast.makeText(applicationContext, "Next Song", Toast.LENGTH_SHORT).show()
+            showMessage("Next Song")
         }
     }
 
@@ -267,13 +244,18 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (isShowMessageOn){
-            Toast.makeText(applicationContext, "PPrevious Song", Toast.LENGTH_SHORT).show()
+            showMessage("Previous Song")
         }
     }
 
     private fun vibrate() {
         var v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         v.vibrate(300)
+    }
+
+    private fun showMessage(text:String){
+        this.runOnUiThread({ Toast.makeText(applicationContext, "Now Playing " + text, Toast.LENGTH_SHORT).show() })
+
     }
 
     public override fun onResume() {
