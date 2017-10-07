@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Shake it - Spotify</string>
+    <string name="instructions_title">Instrucciones</string>
+    <string name="vibrate_when_shake">Vibrar al realizar acción</string>
+    <string name="show_action_messages">Mostrar mensajes</string>
+    <string name="settings">AJUSTES</string>
+    <string name="start_spotify">1. Iniciar Spotify</string>
+    <string name="play_your_music">2. Reproducir música</string>
+    <string name="keep_in_background_this_app">3. Mantener en segundo plano esta app</string>
+    <string name="shake_time">Hora de agitar</string>
+    <string name="times_next_song">2 veces - Siguiente canción</string>
+    <string name="times_previous_song">3 veces - Canción anterior</string>
+    <string name="now_playing_toast">Ahora Sonando</string>
+    <string name="next_song_toast">Siguiente canción</string>
+    <string name="previous_song_toast">Canción anterior</string>
+    <string name="exit_message">¿Está seguro que quiere cerrar la app?</string>
+    <string name="CANCEL_BUTTON">CANCELAR</string>
+    <string name="exit_menu">Salir</string>
+
+</resources>

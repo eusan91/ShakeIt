@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">Shake it - Spotify</string>
+    <string name="instructions_title">Instructions</string>
+    <string name="vibrate_when_shake">Vibrate when shake</string>
+    <string name="show_action_messages">Show Action Messages</string>
+    <string name="settings">SETTINGS</string>
+    <string name="start_spotify">1. Start Spotify</string>
+    <string name="play_your_music">2. Play your music</string>
+    <string name="keep_in_background_this_app">3. Keep in background this app</string>
+    <string name="shake_time">Shake time</string>
+    <string name="times_next_song">2 times - Next Song</string>
+    <string name="times_previous_song">3 times - Previous Song</string>
+    <string name="now_playing_toast">Now Playing</string>
+    <string name="next_song_toast">Next Song</string>
+    <string name="previous_song_toast">Previous Song</string>
+    <string name="exit_message">Are you sure you want to close?</string>
+    <string name="CANCEL_BUTTON">CANCEL</string>
+    <string name="exit_menu">Exit</string>
 </resources>

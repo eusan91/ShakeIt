@@ -30,7 +30,7 @@ class HelperClass (private val activity: MainActivity){
     }
 
     private fun showMessage(text:String){
-        activity.runOnUiThread({ Toast.makeText(activity.applicationContext, "Now Playing " + text, Toast.LENGTH_SHORT).show() })
+        activity.runOnUiThread({ Toast.makeText(activity.applicationContext, activity.getString(R.string.now_playing_toast) + text, Toast.LENGTH_SHORT).show() })
 
     }
 
@@ -54,7 +54,7 @@ class HelperClass (private val activity: MainActivity){
         }
 
         if (activity.isShowMessageOn){
-            showMessage("Next Song")
+            showMessage(activity.getString(R.string.next_song_toast))
         }
     }
 
@@ -78,7 +78,7 @@ class HelperClass (private val activity: MainActivity){
         }
 
         if (activity.isShowMessageOn){
-            showMessage("Previous Song")
+            showMessage(activity.getString(R.string.previous_song_toast))
         }
     }
 
@@ -87,12 +87,12 @@ class HelperClass (private val activity: MainActivity){
         val dialog : android.support.v7.app.AlertDialog = android.support.v7.app.AlertDialog.Builder(activity).create()
 
         dialog.setTitle("Shake it - Spotify")
-        dialog.setMessage("Are you sure you want to close?")
+        dialog.setMessage(activity.getString(R.string.exit_message))
         dialog.setButton(android.support.v7.app.AlertDialog.BUTTON_POSITIVE, "OK",
                 DialogInterface.OnClickListener { dialogInterface, i ->
                     activity.finish()
                 })
-        dialog.setButton(android.support.v7.app.AlertDialog.BUTTON_NEGATIVE, "CANCEL",
+        dialog.setButton(android.support.v7.app.AlertDialog.BUTTON_NEGATIVE, activity.getString(R.string.CANCEL_BUTTON),
                 DialogInterface.OnClickListener { dialogInterface, i ->
                  //Do nothing
                 })
