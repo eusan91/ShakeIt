@@ -4,16 +4,16 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.hardware.Sensor
 import android.hardware.SensorManager
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Switch
 import com.google.android.gms.ads.AdRequest
-import com.santamaria.shakecontrolspotify.ShakeDetector.OnShakeListener
 import com.google.android.gms.ads.AdView
 import com.santamaria.shakecontrolspotify.R.id.*
+import com.santamaria.shakecontrolspotify.ShakeDetector.OnShakeListener
 import java.util.*
 import kotlin.concurrent.thread
 
@@ -32,21 +32,21 @@ class MainActivity : AppCompatActivity() {
     var isShowMessageOn = true
 
     //Switch view variables
-    private lateinit var vibrateSwitch : Switch
-    private lateinit var showMessageSwitch : Switch
+    private lateinit var vibrateSwitch: Switch
+    private lateinit var showMessageSwitch: Switch
 
     //SharedPreferences variables
     private val SharedPreferencesName = "SHAKE_IT"
     private val keyNameVibrate = "VIBRATE_STATE"
     private val keyNameShowMessage = "SM_STATE"
-    private var sharedPreferences:SharedPreferences ?= null
+    private var sharedPreferences: SharedPreferences? = null
     private var isLoading = false
 
     //Ad variables
     private var mAdView: AdView? = null
 
     //Notification variable
-    var notHelper:NotificationHelper ?= null
+    var notHelper: NotificationHelper? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
         sharedPreferences = getSharedPreferences(SharedPreferencesName, Context.MODE_PRIVATE)
 
         vibrateSwitch = findViewById(idVibrateSwith) as Switch
-        showMessageSwitch = findViewById(idShowMessageSwitch)  as Switch
+        showMessageSwitch = findViewById(idShowMessageSwitch) as Switch
 
         vibrateSwitch.setOnCheckedChangeListener { compoundButton, b ->
 
@@ -102,19 +102,19 @@ class MainActivity : AppCompatActivity() {
 
             val TIME_LAPSE = 1000
 
-            while(true){
+            while (true) {
 
-                if (list.size == 2){
+                if (list.size == 2) {
 
-                    if ((list[1].time - list[0].time) < TIME_LAPSE){
+                    if ((list[1].time - list[0].time) < TIME_LAPSE) {
 
-                        if (list[1].actionValue == 2){
+                        if (list[1].actionValue == 2) {
                             helperClass.nextSong()
                         } else {
                             helperClass.previousSong()
                         }
                     } else {
-                        if (list[0].actionValue == 2){
+                        if (list[0].actionValue == 2) {
                             helperClass.nextSong()
                         } else {
                             helperClass.previousSong()
@@ -127,10 +127,10 @@ class MainActivity : AppCompatActivity() {
 
                     var now = System.currentTimeMillis()
 
-                    if (list.size == 1){
+                    if (list.size == 1) {
 
-                        if ((now - list[0].time) > TIME_LAPSE-100 ){
-                            if (list[0].actionValue == 2){
+                        if ((now - list[0].time) > TIME_LAPSE - 100) {
+                            if (list[0].actionValue == 2) {
                                 helperClass.nextSong()
                             } else {
                                 helperClass.previousSong()
@@ -144,7 +144,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun saveStateCheckView(currentState:Boolean, key:String){
+    private fun saveStateCheckView(currentState: Boolean, key: String) {
 
         var editor = sharedPreferences!!.edit()
         editor.putBoolean(key, currentState)
@@ -152,7 +152,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun loadCheckViewStates(){
+    private fun loadCheckViewStates() {
 
         isLoading = true
 
@@ -166,7 +166,7 @@ class MainActivity : AppCompatActivity() {
         isLoading = false
     }
 
-    private fun addIconActionBar(){
+    private fun addIconActionBar() {
         val actionBar = supportActionBar
         if (actionBar != null) {
             actionBar.setLogo(R.mipmap.ic_launcher)
@@ -179,21 +179,21 @@ class MainActivity : AppCompatActivity() {
 
     //Inner class to store values such as
     // action and the time that was created.
-    inner class ActionRegister{
+    inner class ActionRegister {
         var actionValue: Int = 0
         var time: Long = 0
 
-        constructor(actionValue:Int, time:Long){
+        constructor(actionValue: Int, time: Long) {
             this.actionValue = actionValue
             this.time = time
         }
     }
 
     private fun handleShakeEvent(count: Int, time: Long) {
-       
-        if (count == 2 ) {
+
+        if (count == 2) {
             list.add(ActionRegister(2, time))
-        } else if (count == 3 ) {
+        } else if (count == 3) {
             list.add(ActionRegister(3, time))
         }
     }
@@ -214,6 +214,7 @@ class MainActivity : AppCompatActivity() {
 
         return super.onOptionsItemSelected(item)
     }
+
     public override fun onResume() {
         super.onResume()
 
