@@ -67,6 +67,6 @@ class ShakeDetector : SensorEventListener {
     companion object {
         private val SHAKE_THRESHOLD_GRAVITY = 2f
         private val SHAKE_SLOP_TIME_MS = 200
-        private val SHAKE_COUNT_RESET_TIME_MS = 1100
+        private val SHAKE_COUNT_RESET_TIME_MS = 1000
     }
 }

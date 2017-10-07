@@ -24,14 +24,17 @@ import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
 
+    //HelperClass
+    private val helperClass = HelperClass(this)
+
     //Sensor variables
     private var mSensorManager: SensorManager? = null
     private var mAccelerometer: Sensor? = null
     private var mShakeDetector: ShakeDetector? = null
 
     //Boolean states switch views variables
-    private var isVibrateOn = false
-    private var isShowMessageOn = false
+    var isVibrateOn = false
+    var isShowMessageOn = false
 
     //Switch view variables
     private lateinit var vibrateSwitch : Switch
@@ -106,18 +109,18 @@ class MainActivity : AppCompatActivity() {
 
                 if (list.size == 2){
 
-                    if ((list.get(1).time - list.get(0).time) < TIME_LAPSE){
+                    if ((list[1].time - list[0].time) < TIME_LAPSE){
 
-                        if (list.get(1).actionValue == 2){
-                            nextSong()
+                        if (list[1].actionValue == 2){
+                            helperClass.nextSong()
                         } else {
-                            previousSong()
+                            helperClass.previousSong()
                         }
                     } else {
-                        if (list.get(0).actionValue == 2){
-                            nextSong()
+                        if (list[0].actionValue == 2){
+                            helperClass.nextSong()
                         } else {
-                            previousSong()
+                            helperClass.previousSong()
                         }
                     }
 
@@ -129,11 +132,11 @@ class MainActivity : AppCompatActivity() {
 
                     if (list.size == 1){
 
-                        if ((now - list.get(0).time) > TIME_LAPSE-100 ){
-                            if (list.get(0).actionValue == 2){
-                                nextSong()
+                        if ((now - list[0].time) > TIME_LAPSE-100 ){
+                            if (list[0].actionValue == 2){
+                                helperClass.nextSong()
                             } else {
-                                previousSong()
+                                helperClass.previousSong()
                             }
 
                             list.clear()
@@ -178,6 +181,8 @@ class MainActivity : AppCompatActivity() {
 
     var list = LinkedList<ActionRegister>()
 
+    //Inner class to store values such as
+    // action and the time that was created.
     inner class ActionRegister{
         var actionValue: Int = 0
         var time: Long = 0
@@ -189,72 +194,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun handleShakeEvent(count: Int, time: Long) {
-
-        Log.d("ema", count.toString())
-
+        //Log.d("ema", count.toString() + " " + time.toString())
         if (count == 2 ) {
             list.add(ActionRegister(2, time))
         } else if (count == 3 ) {
             list.add(ActionRegister(3, time))
         }
-
-    }
-
-    private fun nextSong(){
-
-        var keyCode = KeyEvent.KEYCODE_MEDIA_NEXT
-
-        var intent = Intent(Intent.ACTION_MEDIA_BUTTON)
-
-        intent.`package` = "com.spotify.music"
-        synchronized (this) {
-            intent.putExtra(Intent.EXTRA_KEY_EVENT, KeyEvent(KeyEvent.ACTION_DOWN, keyCode))
-            applicationContext.sendOrderedBroadcast(intent, null)
-            intent.putExtra(Intent.EXTRA_KEY_EVENT, KeyEvent(KeyEvent.ACTION_UP, keyCode))
-            applicationContext.sendOrderedBroadcast(intent, null)
-
-        }
-
-        if (isVibrateOn){
-            vibrate()
-        }
-
-        if (isShowMessageOn){
-            showMessage("Next Song")
-        }
-    }
-
-    private fun previousSong(){
-
-        var keyCode = KeyEvent.KEYCODE_MEDIA_PREVIOUS
-
-        var intent = Intent(Intent.ACTION_MEDIA_BUTTON)
-
-        intent.`package` = "com.spotify.music"
-        synchronized (this) {
-            intent.putExtra(Intent.EXTRA_KEY_EVENT, KeyEvent(KeyEvent.ACTION_DOWN, keyCode))
-            applicationContext.sendOrderedBroadcast(intent, null)
-            intent.putExtra(Intent.EXTRA_KEY_EVENT, KeyEvent(KeyEvent.ACTION_UP, keyCode))
-            applicationContext.sendOrderedBroadcast(intent, null)
-
-        }
-
-        if (isVibrateOn){
-            vibrate()
-        }
-
-        if (isShowMessageOn){
-            showMessage("Previous Song")
-        }
-    }
-
-    private fun vibrate() {
-        var v = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-        v.vibrate(300)
-    }
-
-    private fun showMessage(text:String){
-        this.runOnUiThread({ Toast.makeText(applicationContext, "Now Playing " + text, Toast.LENGTH_SHORT).show() })
 
     }
 
