@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1045074592130",
+    "firebase_url": "https://shake-it-d4473.firebaseio.com",
+    "project_id": "shake-it-d4473",
+    "storage_bucket": "shake-it-d4473.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1045074592130:android:30705916ed9827fa",
+        "android_client_info": {
+          "package_name": "com.santamaria.shakeitspotify"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1045074592130-re9cvahi873gq1qbu8cplm40ce20e8kl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.santamaria.shakeitspotify",
+            "certificate_hash": "18a3aa01099fa7ca4a7fb354219889df08fcd76b"
+          }
+        },
+        {
+          "client_id": "1045074592130-b4fjid0t3ln1psost179k6gbq8ci2cit.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCldSyCn23mSlHq_CD1OO5ULf_sMvTXP1w"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1045074592130-b4fjid0t3ln1psost179k6gbq8ci2cit.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

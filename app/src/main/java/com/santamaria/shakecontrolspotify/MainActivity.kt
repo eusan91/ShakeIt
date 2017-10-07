@@ -12,9 +12,13 @@ import android.os.Vibrator
 import android.view.KeyEvent
 import android.widget.Switch
 import android.widget.Toast
+import com.google.android.gms.ads.AdRequest
 import com.santamaria.shakecontrolspotify.R.id.idShowMessageSwitch
 import com.santamaria.shakecontrolspotify.R.id.idVibrateSwith
 import com.santamaria.shakecontrolspotify.ShakeDetector.OnShakeListener
+import com.google.android.gms.ads.AdView
+
+
 
 
 
@@ -39,6 +43,10 @@ class MainActivity : AppCompatActivity() {
     val keyNameShowMessage = "SM_STATE"
     var sharedPreferences:SharedPreferences ?= null
     var isLoading = false
+
+    //Ad variables
+    private val TAG = "MainActivity"
+    private var mAdView: AdView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,6 +90,11 @@ class MainActivity : AppCompatActivity() {
         })
 
         addIconActionBar()
+
+        //Ad Code
+        mAdView = findViewById(R.id.adView) as AdView
+        val adRequest = AdRequest.Builder().build()
+        mAdView!!.loadAd(adRequest)
     }
 
     private fun saveStateCheckView(currentState:Boolean, key:String){
