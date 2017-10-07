@@ -16,4 +16,5 @@
     <string name="exit_message">Are you sure you want to close?</string>
     <string name="CANCEL_BUTTON">CANCEL</string>
     <string name="exit_menu">Exit</string>
+    <string name="msg_notification">Close it once you stop listening Spotify</string>
 </resources>

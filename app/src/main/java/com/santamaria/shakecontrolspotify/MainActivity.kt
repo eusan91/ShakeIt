@@ -45,9 +45,14 @@ class MainActivity : AppCompatActivity() {
     //Ad variables
     private var mAdView: AdView? = null
 
+    //Notification variable
+    var notHelper:NotificationHelper ?= null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        notHelper = NotificationHelper(this)
 
         sharedPreferences = getSharedPreferences(SharedPreferencesName, Context.MODE_PRIVATE)
 
@@ -137,7 +142,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-
     }
 
     private fun saveStateCheckView(currentState:Boolean, key:String){
@@ -212,12 +216,27 @@ class MainActivity : AppCompatActivity() {
     }
     public override fun onResume() {
         super.onResume()
+
+        //hide notification
+        notHelper!!.cancelNotification()
+
         // Register the Session Manager Listener onResume
         mSensorManager!!.registerListener(mShakeDetector, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL)
     }
 
+    override fun onPause() {
+        super.onPause()
+
+        //show Notification
+        notHelper!!.showNotification()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
+
+        //hide notification
+        notHelper!!.cancelNotification()
+
         // Unregister the Session Manager Listener onDestroy
         mSensorManager!!.unregisterListener(mShakeDetector)
     }

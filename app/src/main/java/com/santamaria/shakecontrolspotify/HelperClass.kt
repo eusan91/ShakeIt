@@ -30,7 +30,7 @@ class HelperClass (private val activity: MainActivity){
     }
 
     private fun showMessage(text:String){
-        activity.runOnUiThread({ Toast.makeText(activity.applicationContext, activity.getString(R.string.now_playing_toast) + text, Toast.LENGTH_SHORT).show() })
+        activity.runOnUiThread({ Toast.makeText(activity.applicationContext, activity.getString(R.string.now_playing_toast) + " " + text, Toast.LENGTH_SHORT).show() })
 
     }
 

@@ -11,11 +11,12 @@
     <string name="shake_time">Hora de agitar</string>
     <string name="times_next_song">2 veces - Siguiente canción</string>
     <string name="times_previous_song">3 veces - Canción anterior</string>
-    <string name="now_playing_toast">Ahora Sonando</string>
-    <string name="next_song_toast">Siguiente canción</string>
-    <string name="previous_song_toast">Canción anterior</string>
+    <string name="now_playing_toast">Ahora Sonando </string>
+    <string name="next_song_toast">siguiente canción</string>
+    <string name="previous_song_toast">canción anterior</string>
     <string name="exit_message">¿Está seguro que quiere cerrar la app?</string>
     <string name="CANCEL_BUTTON">CANCELAR</string>
     <string name="exit_menu">Salir</string>
+    <string name="msg_notification">Cierre la app cuando ya no use Spotify</string>
 
 </resources>
