@@ -6,6 +6,7 @@ import android.hardware.Sensor
 import android.hardware.SensorManager
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -161,7 +162,7 @@ class MainActivity : AppCompatActivity() {
         RateThisApp.onCreate(this)
 
         //If the condition is satisfied "Rate this app" dialog will be shown
-        RateThisApp.showRateDialogIfNeeded(this);
+        RateThisApp.showRateDialogIfNeeded(this)
 
     }
 
@@ -264,4 +265,14 @@ class MainActivity : AppCompatActivity() {
         mSensorManager!!.unregisterListener(mShakeDetector)
     }
 
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK)
+        {
+            this.moveTaskToBack(true)
+            return true
+        }
+
+        return super.onKeyDown(keyCode, event)
+    }
 }
