@@ -12,6 +12,7 @@ import android.view.MenuItem
 import android.widget.Switch
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
+import com.kobakei.ratethisapp.RateThisApp
 import com.santamaria.shakecontrolspotify.R.id.*
 import com.santamaria.shakecontrolspotify.ShakeDetector.OnShakeListener
 import java.util.*
@@ -51,6 +52,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        rateThisApp()
 
         notHelper = NotificationHelper(this)
 
@@ -142,6 +145,24 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }*/
+    }
+
+    private fun rateThisApp() {
+
+        val config = RateThisApp.Config(3, 5)
+        config.setTitle(R.string.rate_title)
+        config.setMessage(R.string.rate_msg)
+        config.setYesButtonText(R.string.rate_now)
+        config.setNoButtonText(R.string.rate_no)
+        config.setCancelButtonText(R.string.rate_later)
+        RateThisApp.init(config)
+
+        //Monitor launch times and interval from installation
+        RateThisApp.onCreate(this)
+
+        //If the condition is satisfied "Rate this app" dialog will be shown
+        RateThisApp.showRateDialogIfNeeded(this);
+
     }
 
     private fun saveStateCheckView(currentState: Boolean, key: String) {

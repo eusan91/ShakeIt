@@ -18,5 +18,9 @@
     <string name="CANCEL_BUTTON">CANCELAR</string>
     <string name="exit_menu">Salir</string>
     <string name="msg_notification">Cierre la app cuando ya no use Spotify</string>
-
+    <string name="rate_title">Calificá esta aplicación</string>
+    <string name="rate_msg">No te tomará más de una minuto. ¡Gracias por tu ayuda!</string>
+    <string name="rate_later">Después</string>
+    <string name="rate_no">No</string>
+    <string name="rate_now">Calificar</string>
 </resources>
