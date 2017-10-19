@@ -97,7 +97,7 @@ class MainActivity : AppCompatActivity() {
         mAdView = findViewById(R.id.adView) as AdView
         val adRequest = AdRequest.Builder().build()
         mAdView!!.loadAd(adRequest)
-
+/* TODO: Need to find a way to handle different events on shake...
         thread(start = true) {
 
             val TIME_LAPSE = 1000
@@ -141,7 +141,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
-        }
+        }*/
     }
 
     private fun saveStateCheckView(currentState: Boolean, key: String) {
@@ -192,10 +192,11 @@ class MainActivity : AppCompatActivity() {
     private fun handleShakeEvent(count: Int, time: Long) {
 
         if (count == 2) {
-            list.add(ActionRegister(2, time))
-        } else if (count == 3) {
+            helperClass.nextSong()
+            //list.add(ActionRegister(2, time))
+        } /*else if (count == 3) {
             list.add(ActionRegister(3, time))
-        }
+        }*/
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
