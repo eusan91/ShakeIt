@@ -33,7 +33,6 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="16sp"
         tools:checked="false"
-        tools:layout_editor_absoluteX="92dp"
         tools:layout_constraintTop_creator="1"
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintBottom_creator="1"
@@ -43,7 +42,9 @@
         tools:layout_constraintLeft_creator="1"
         android:layout_marginBottom="27dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView2" />
+        app:layout_constraintTop_toTopOf="@+id/textView2"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Switch
         android:id="@+id/idShowMessageSwitch"
@@ -54,7 +55,7 @@
         android:textSize="16sp"
         tools:layout_constraintTop_creator="1"
         android:layout_marginStart="17dp"
-        android:layout_marginTop="86dp"
+        android:layout_marginTop="59dp"
         app:layout_constraintTop_toBottomOf="@+id/textView8"
         tools:layout_constraintLeft_creator="1"
         app:layout_constraintLeft_toLeftOf="@+id/idVibrateSwith"
@@ -73,24 +74,23 @@
         app:layout_constraintBottom_toTopOf="@+id/idShowMessageSwitch"
         app:layout_constraintRight_toRightOf="@+id/idVibrateSwith"
         tools:layout_constraintLeft_creator="1"
-        android:layout_marginBottom="25dp"
+        android:layout_marginBottom="37dp"
         app:layout_constraintLeft_toLeftOf="@+id/idVibrateSwith" />
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        app:srcCompat="@drawable/spotify_icon"
+    <pl.droidsonroids.gif.GifTextView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/giphy"
         tools:layout_constraintTop_creator="1"
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintBottom_creator="1"
-        app:layout_constraintBottom_toTopOf="@+id/adView"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="38dp"
-        app:layout_constraintTop_toBottomOf="@+id/idShowMessageSwitch"
+        android:layout_marginTop="46dp"
         tools:layout_constraintLeft_creator="1"
-        android:layout_marginBottom="39dp"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        android:layout_marginBottom="58dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/idShowMessageSwitch" />
 
     <TextView
         android:id="@+id/textView3"
