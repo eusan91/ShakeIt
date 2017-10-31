@@ -81,7 +81,6 @@
         android:id="@+id/gifTextView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@drawable/giphy"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/adView"
         app:layout_constraintEnd_toEndOf="parent"
