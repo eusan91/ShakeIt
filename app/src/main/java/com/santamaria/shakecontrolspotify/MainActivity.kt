@@ -16,8 +16,6 @@ import com.google.android.gms.ads.AdView
 import com.kobakei.ratethisapp.RateThisApp
 import com.santamaria.shakecontrolspotify.R.id.*
 import com.santamaria.shakecontrolspotify.ShakeDetector.OnShakeListener
-import java.util.*
-import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
 
@@ -48,7 +46,7 @@ class MainActivity : AppCompatActivity() {
     private var mAdView: AdView? = null
 
     //Notification variable
-    var notHelper: NotificationHelper? = null
+    //private var notHelper: NotificationHelper? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,14 +54,14 @@ class MainActivity : AppCompatActivity() {
 
         rateThisApp()
 
-        notHelper = NotificationHelper(this)
+        //notHelper = NotificationHelper(this)
 
         sharedPreferences = getSharedPreferences(SharedPreferencesName, Context.MODE_PRIVATE)
 
         vibrateSwitch = findViewById(idVibrateSwith) as Switch
         showMessageSwitch = findViewById(idShowMessageSwitch) as Switch
 
-        vibrateSwitch.setOnCheckedChangeListener { compoundButton, b ->
+        vibrateSwitch.setOnCheckedChangeListener { _, _ ->
 
             isVibrateOn = vibrateSwitch.isChecked
 
@@ -72,7 +70,7 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-        showMessageSwitch.setOnCheckedChangeListener { compoundButton, b ->
+        showMessageSwitch.setOnCheckedChangeListener { _, _ ->
 
             isShowMessageOn = showMessageSwitch.isChecked
 
@@ -101,7 +99,8 @@ class MainActivity : AppCompatActivity() {
         mAdView = findViewById(R.id.adView) as AdView
         val adRequest = AdRequest.Builder().build()
         mAdView!!.loadAd(adRequest)
-/* TODO: Need to find a way to handle different events on shake...
+
+        /* TODO: Need to find a way to handle different events on shake...
         thread(start = true) {
 
             val TIME_LAPSE = 1000
@@ -168,9 +167,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun saveStateCheckView(currentState: Boolean, key: String) {
 
-        var editor = sharedPreferences!!.edit()
+        val editor = sharedPreferences!!.edit()
         editor.putBoolean(key, currentState)
-        editor.commit()
+        editor.apply()
 
     }
 
@@ -197,19 +196,19 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    var list = LinkedList<ActionRegister>()
+    //var list = LinkedList<ActionRegister>()
 
     //Inner class to store values such as
     // action and the time that was created.
-    inner class ActionRegister {
-        var actionValue: Int = 0
-        var time: Long = 0
+    /*inner class ActionRegister {
+        private var actionValue: Int = 0
+        private var time: Long = 0
 
         constructor(actionValue: Int, time: Long) {
             this.actionValue = actionValue
             this.time = time
         }
-    }
+    }*/
 
     private fun handleShakeEvent(count: Int, time: Long) {
 
@@ -223,7 +222,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
 
-        var menuInflater = MenuInflater(this)
+        val menuInflater = MenuInflater(this)
         menuInflater.inflate(R.menu.upper_right_items, menu)
 
         return super.onCreateOptionsMenu(menu)
@@ -242,24 +241,25 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
 
         //hide notification
-        notHelper!!.cancelNotification()
+        //notHelper!!.cancelNotification()
 
         // Register the Session Manager Listener onResume
         mSensorManager!!.registerListener(mShakeDetector, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL)
     }
 
+    /*
     override fun onPause() {
         super.onPause()
 
         //show Notification
         notHelper!!.showNotification()
-    }
+    }*/
 
     override fun onDestroy() {
         super.onDestroy()
 
         //hide notification
-        notHelper!!.cancelNotification()
+        //notHelper!!.cancelNotification()
 
         // Unregister the Session Manager Listener onDestroy
         mSensorManager!!.unregisterListener(mShakeDetector)

@@ -81,11 +81,11 @@ class HelperClass (private val activity: MainActivity){
         dialog.setTitle("Shake it - Spotify")
         dialog.setMessage(activity.getString(R.string.exit_message))
         dialog.setButton(android.support.v7.app.AlertDialog.BUTTON_POSITIVE, "OK",
-                DialogInterface.OnClickListener { dialogInterface, i ->
+                DialogInterface.OnClickListener { _, _ ->
                     activity.finish()
                 })
         dialog.setButton(android.support.v7.app.AlertDialog.BUTTON_NEGATIVE, activity.getString(R.string.CANCEL_BUTTON),
-                DialogInterface.OnClickListener { dialogInterface, i ->
+                DialogInterface.OnClickListener { _, _ ->
                  //Do nothing
                 })
 

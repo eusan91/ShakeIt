@@ -8,4 +8,32 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="MainTextViewTitleStyle">
+
+        <item name="android:layout_marginEnd"> @dimen/main_tv_title_marginEnd</item>
+        <item name="android:layout_marginStart"> @dimen/main_tv_title_marginStart</item>
+        <item name="android:layout_marginTop"> @dimen/main_tv_title_marginTop</item>
+        <item name="android:textSize"> @dimen/main_tv_title_textSize</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Button</item>
+    </style>
+
+    <style name="MainSwitchStyle">
+
+        <item name="android:layout_marginTop">@dimen/main_switch_marginTop</item>
+        <item name="android:textSize">@dimen/main_switch_textSize</item>
+        <item name="android:checked">false</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
+
+    </style>
+
+    <style name="MainTextViewItemsStyle">
+
+    <item name="android:layout_marginEnd"> @dimen/main_textview_message_marginEnd</item>
+    <item name="android:layout_marginStart"> @dimen/main_textview_message_marginStart</item>
+    <item name="android:layout_marginTop"> @dimen/main_textview_message_marginTop</item>
+    <item name="android:textSize"> @dimen/main_textview_message_textSize</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat</item>
+
+    </style>
 </resources>

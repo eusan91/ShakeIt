@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- INSTRUCTION && SETTINGS && SHAKE TIME -->
+
+    <dimen name="main_tv_title_marginEnd">8dp</dimen>
+    <dimen name="main_tv_title_marginStart">8dp</dimen>
+    <dimen name="main_tv_title_marginTop">16dp</dimen>
+    <dimen name="main_tv_title_textSize">18sp</dimen>
+
+    <!-- SWITCHES  -->
+
+    <dimen name="main_switch_marginTop">8dp</dimen>
+    <dimen name="main_switch_textSize">16sp</dimen>
+
+    <!-- TextViews -->
+
+    <dimen name="main_textview_message_marginEnd">8dp</dimen>
+    <dimen name="main_textview_message_marginStart">8dp</dimen>
+    <dimen name="main_textview_message_marginTop">8dp</dimen>
+    <dimen name="main_textview_message_textSize">16sp</dimen>
+
+</resources>
