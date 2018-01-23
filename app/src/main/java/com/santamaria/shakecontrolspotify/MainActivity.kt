@@ -11,6 +11,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Switch
+import android.widget.Toast
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.kobakei.ratethisapp.RateThisApp
@@ -214,6 +215,7 @@ class MainActivity : AppCompatActivity() {
 
         if (count == 2) {
             helperClass.nextSong()
+            //Toast.makeText(this, "times " + count, Toast.LENGTH_SHORT).show()
             //list.add(ActionRegister(2, time))
         } /*else if (count == 3) {
             list.add(ActionRegister(3, time))

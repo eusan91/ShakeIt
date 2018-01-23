@@ -4,6 +4,7 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import android.util.Log
 
 /**
  * Created by Santamaria on 06/10/2017.
@@ -44,18 +45,29 @@ class ShakeDetector : SensorEventListener {
             if (gForce > SHAKE_THRESHOLD_GRAVITY) {
 
                 val now = System.currentTimeMillis()
+                //Log.d("\n Ema now1:", now.toString())
+                //Log.d("Ema mShakeCount1:", mShakeCount.toString())
                 // ignore shake events too close to each other (200ms)
                 if (mShakeTimestamp + SHAKE_SLOP_TIME_MS > now) {
+
+                    if (mShakeCount >= 2){
+                        //Log.d("Ema reinicio:", mShakeCount.toString())
+                        mShakeCount = 0
+                    }
                     return
                 }
 
                 // reset the shake count after 1.1 seconds of no shakes
                 if (mShakeTimestamp + SHAKE_COUNT_RESET_TIME_MS < now) {
+                   // Log.d("Ema mShakeTimestamp2:", mShakeTimestamp.toString())
                     mShakeCount = 0
+                    //Log.d("Ema mShakeCount2:", mShakeCount.toString())
                 }
 
                 mShakeTimestamp = now
                 mShakeCount++
+
+                //Log.d("Ema mShakeCount3:", mShakeCount.toString())
 
                 mListener!!.onShake(mShakeCount, now)
             }
