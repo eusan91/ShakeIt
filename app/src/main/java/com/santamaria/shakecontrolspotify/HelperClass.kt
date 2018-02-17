@@ -33,6 +33,7 @@ class HelperClass (private val activity: MainActivity){
         var intent = Intent(Intent.ACTION_MEDIA_BUTTON)
 
         intent.`package` = SPOTIFY_PACKAGE_NAME
+
         synchronized (this) {
             intent.putExtra(Intent.EXTRA_KEY_EVENT, KeyEvent(KeyEvent.ACTION_DOWN, keyCode))
             activity.applicationContext.sendOrderedBroadcast(intent, null)

@@ -11,7 +11,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Switch
-import android.widget.Toast
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.kobakei.ratethisapp.RateThisApp
@@ -32,6 +31,9 @@ class MainActivity : AppCompatActivity() {
     var isVibrateOn = true
     var isShowMessageOn = true
 
+    //variable updated with SharedPreferences in case the user change to 1
+    var gShakeCount = 2
+
     //Switch view variables
     private lateinit var vibrateSwitch: Switch
     private lateinit var showMessageSwitch: Switch
@@ -40,6 +42,7 @@ class MainActivity : AppCompatActivity() {
     private val SharedPreferencesName = "SHAKE_IT"
     private val keyNameVibrate = "VIBRATE_STATE"
     private val keyNameShowMessage = "SM_STATE"
+    private val keyNameShakeCount = "SHAKE_CNT"
     private var sharedPreferences: SharedPreferences? = null
     private var isLoading = false
 
@@ -79,6 +82,10 @@ class MainActivity : AppCompatActivity() {
                 saveStateCheckView(isShowMessageOn, keyNameShowMessage)
 
         }
+
+        //TODO Need to set the gShakeCount somehow just 1 time
+        gShakeCount = sharedPreferences!!.getInt(keyNameShakeCount, 2)
+        //saveStateCheckView(gShakeCount, keyNameShakeCount)
 
         loadCheckViewStates()
 
@@ -174,16 +181,22 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    private fun saveStateCheckView(currentState: Int, key: String) {
+
+        val editor = sharedPreferences!!.edit()
+        editor.putInt(key, currentState)
+        editor.apply()
+
+    }
+
     private fun loadCheckViewStates() {
 
         isLoading = true
 
-        sharedPreferences!!.getBoolean(keyNameVibrate, false)
         isShowMessageOn = sharedPreferences!!.getBoolean(keyNameShowMessage, false)
-
+        showMessageSwitch.isChecked = isShowMessageOn
 
         vibrateSwitch.isChecked = sharedPreferences!!.getBoolean(keyNameVibrate, false)
-        showMessageSwitch.isChecked = sharedPreferences!!.getBoolean(keyNameShowMessage, false)
 
         isLoading = false
     }
@@ -213,7 +226,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun handleShakeEvent(count: Int, time: Long) {
 
-        if (count == 2) {
+        if (count == gShakeCount) {
             helperClass.nextSong()
             //Toast.makeText(this, "times " + count, Toast.LENGTH_SHORT).show()
             //list.add(ActionRegister(2, time))
