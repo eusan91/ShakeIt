@@ -9,7 +9,7 @@
     <string name="play_your_music">2. Reproducir música</string>
     <string name="keep_in_background_this_app">3. Mantener en segundo plano esta app</string>
     <string name="shake_time">Hora de agitar</string>
-    <string name="times_next_song">2 veces - Siguiente canción</string>
+    <string name="times_next_song">veces - Siguiente canción</string>
     <string name="times_previous_song">3 veces - Canción anterior</string>
     <string name="now_playing_toast">Ahora Sonando </string>
     <string name="next_song_toast">siguiente canción</string>

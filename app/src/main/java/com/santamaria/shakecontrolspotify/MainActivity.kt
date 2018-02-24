@@ -73,6 +73,24 @@ class MainActivity : AppCompatActivity() {
         loadCheckViewStates()
 
         // ShakeDetector initialization
+        initShakeDetector()
+
+        addIconActionBar()
+
+        //Ad Code
+        initAdOnView()
+
+
+    }
+
+    private fun initAdOnView(){
+        mAdView = findViewById(R.id.adView) as AdView
+        val adRequest = AdRequest.Builder().build()
+        mAdView!!.loadAd(adRequest)
+    }
+
+    private fun initShakeDetector(){
+
         mSensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         mAccelerometer = mSensorManager!!
                 .getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
@@ -83,14 +101,6 @@ class MainActivity : AppCompatActivity() {
                 handleShakeEvent(count, time)
             }
         })
-
-        addIconActionBar()
-
-        //Ad Code
-        mAdView = findViewById(R.id.adView) as AdView
-        val adRequest = AdRequest.Builder().build()
-        mAdView!!.loadAd(adRequest)
-
 
     }
 
@@ -125,7 +135,9 @@ class MainActivity : AppCompatActivity() {
         dropdownShakeNumber.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
 
-                Toast.makeText(applicationContext, "selected" + p2, Toast.LENGTH_SHORT).show()
+                val position : Int = p2 + 1
+
+                shakeCountNumberTextView.text =  "$position " + getString(R.string.times_next_song)
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {

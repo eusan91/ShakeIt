@@ -8,7 +8,7 @@
     <string name="play_your_music">2. Play your music</string>
     <string name="keep_in_background_this_app">3. Keep in background this app</string>
     <string name="shake_time">Shake time</string>
-    <string name="times_next_song">2 times - Next Song</string>
+    <string name="times_next_song">times - Next Song</string>
     <string name="times_previous_song">3 times - Previous Song</string>
     <string name="now_playing_toast">Now Playing</string>
     <string name="next_song_toast">Next Song</string>
