@@ -48,16 +48,17 @@
 
     <TextView
         android:id="@+id/textView2"
+        style="@style/MainTextViewTitleStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:text="@string/settings"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView8"
+        app:layout_constraintTop_toBottomOf="@+id/idTextViewShakeTimes"
         tools:layout_constraintBottom_creator="1"
         tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintRight_creator="1"
-        style="@style/MainTextViewTitleStyle" />
+        tools:layout_constraintRight_creator="1" />
 
     <TextView
         android:id="@+id/textView3"
@@ -116,7 +117,7 @@
         style="@style/MainTextViewTitleStyle" />
 
     <TextView
-        android:id="@+id/textView7"
+        android:id="@+id/idTextViewShakeTimes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/times_next_song"
@@ -130,18 +131,16 @@
 
     <TextView
         android:id="@+id/textView8"
+        style="@style/MainTextViewTitleStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/times_previous_song"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="@+id/textView7"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/textView7"
-        app:layout_constraintTop_toBottomOf="@+id/textView7"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintTop_creator="1"
-        style="@style/MainTextViewItemsStyle"  />
+        android:layout_marginTop="32dp"
+        android:text="PRO SETTINGS"
+        app:layout_constraintEnd_toEndOf="@+id/idShowMessageSwitch"
+        app:layout_constraintHorizontal_bias="0.478"
+        app:layout_constraintStart_toStartOf="@+id/idShowMessageSwitch"
+        app:layout_constraintTop_toBottomOf="@+id/idShowMessageSwitch" />
+
 
     <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
         android:id="@+id/adView"
@@ -158,5 +157,58 @@
         ads:layout_constraintVertical_bias="1.0"
         tools:layout_constraintBottom_creator="1"
         tools:layout_constraintLeft_creator="1"/>
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Sensibility"
+        app:layout_constraintEnd_toEndOf="@+id/textView8"
+        app:layout_constraintHorizontal_bias="0.529"
+        app:layout_constraintStart_toStartOf="@+id/textView8"
+        app:layout_constraintTop_toBottomOf="@+id/textView8"
+        style="@style/MainTextViewItemsStyle" />
+
+
+    <SeekBar
+        android:id="@+id/idSensibilitySeekBar"
+        android:layout_width="250dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="8dp"
+
+        android:max="5"
+        app:layout_constraintEnd_toEndOf="@+id/textView9"
+        app:layout_constraintStart_toStartOf="@+id/textView9"
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="403dp"
+        app:layout_constraintEnd_toEndOf="@+id/idSensibilitySeekBar"
+        app:layout_constraintStart_toStartOf="@+id/idSensibilitySeekBar"
+        app:layout_constraintTop_toBottomOf="@+id/idSensibilitySeekBar">
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            style="@style/MainTextViewItemsStyle"
+            android:layout_marginBottom="4dp"
+            android:text="Select Shake number" />
+
+        <Spinner
+            android:id="@+id/idShakeCount"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:entries="@array/shake_options"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
 
 </android.support.constraint.ConstraintLayout>

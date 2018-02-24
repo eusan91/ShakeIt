@@ -1,0 +1,11 @@
+si es usuario normal
+deshabilitar pro settings
+setear el dropdown en 2
+poner el sensibility en 3 (medio)
+
+si es pro
+habilitar pro settings
+recuperar de sharedPreferences el dropdown
+recuperar del sharedPreferences el sensibility
+
+cuando se cambia el dropdown tambien hay q modificar el textview de lets shake it

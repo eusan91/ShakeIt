@@ -6,11 +6,8 @@ import android.hardware.Sensor
 import android.hardware.SensorManager
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.view.KeyEvent
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.widget.Switch
+import android.view.*
+import android.widget.*
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.kobakei.ratethisapp.RateThisApp
@@ -32,11 +29,20 @@ class MainActivity : AppCompatActivity() {
     var isShowMessageOn = true
 
     //variable updated with SharedPreferences in case the user change to 1
-    var gShakeCount = 2
+    private var gShakeCount = 2
 
     //Switch view variables
     private lateinit var vibrateSwitch: Switch
     private lateinit var showMessageSwitch: Switch
+
+    //TextView for shakeCount
+    private lateinit var shakeCountNumberTextView : TextView
+
+    //seekbar for sensibility
+    private lateinit var sensibilitySeekBar : SeekBar
+
+    //dropdown box selection
+    private lateinit var dropdownShakeNumber : Spinner
 
     //SharedPreferences variables
     private val SharedPreferencesName = "SHAKE_IT"
@@ -49,43 +55,20 @@ class MainActivity : AppCompatActivity() {
     //Ad variables
     private var mAdView: AdView? = null
 
-    //Notification variable
-    //private var notHelper: NotificationHelper? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         rateThisApp()
 
-        //notHelper = NotificationHelper(this)
-
         sharedPreferences = getSharedPreferences(SharedPreferencesName, Context.MODE_PRIVATE)
 
-        vibrateSwitch = findViewById(idVibrateSwith) as Switch
-        showMessageSwitch = findViewById(idShowMessageSwitch) as Switch
+        getViews()
 
-        vibrateSwitch.setOnCheckedChangeListener { _, _ ->
-
-            isVibrateOn = vibrateSwitch.isChecked
-
-            if (!isLoading)
-                saveStateCheckView(isVibrateOn, keyNameVibrate)
-
-        }
-
-        showMessageSwitch.setOnCheckedChangeListener { _, _ ->
-
-            isShowMessageOn = showMessageSwitch.isChecked
-
-            if (!isLoading)
-                saveStateCheckView(isShowMessageOn, keyNameShowMessage)
-
-        }
+        setListenerToViews()
 
         //TODO Need to set the gShakeCount somehow just 1 time
         gShakeCount = sharedPreferences!!.getInt(keyNameShakeCount, 2)
-        //saveStateCheckView(gShakeCount, keyNameShakeCount)
 
         loadCheckViewStates()
 
@@ -108,51 +91,47 @@ class MainActivity : AppCompatActivity() {
         val adRequest = AdRequest.Builder().build()
         mAdView!!.loadAd(adRequest)
 
-        /* TODO: Need to find a way to handle different events on shake...
-        thread(start = true) {
 
-            val TIME_LAPSE = 1000
+    }
 
-            while (true) {
+    private fun getViews(){
+        vibrateSwitch = findViewById(idVibrateSwith) as Switch
+        showMessageSwitch = findViewById(idShowMessageSwitch) as Switch
+        shakeCountNumberTextView = findViewById(idTextViewShakeTimes) as TextView
+        sensibilitySeekBar = findViewById(idSensibilitySeekBar) as SeekBar
+        dropdownShakeNumber = findViewById(idShakeCount) as Spinner
+    }
 
-                if (list.size == 2) {
+    private fun setListenerToViews(){
 
-                    if ((list[1].time - list[0].time) < TIME_LAPSE) {
+        vibrateSwitch.setOnCheckedChangeListener { _, _ ->
 
-                        if (list[1].actionValue == 2) {
-                            helperClass.nextSong()
-                        } else {
-                            helperClass.previousSong()
-                        }
-                    } else {
-                        if (list[0].actionValue == 2) {
-                            helperClass.nextSong()
-                        } else {
-                            helperClass.previousSong()
-                        }
-                    }
+            isVibrateOn = vibrateSwitch.isChecked
 
-                    list.clear()
+            if (!isLoading)
+                saveStateCheckView(isVibrateOn, keyNameVibrate)
 
-                } else {
+        }
 
-                    var now = System.currentTimeMillis()
+        showMessageSwitch.setOnCheckedChangeListener { _, _ ->
 
-                    if (list.size == 1) {
+            isShowMessageOn = showMessageSwitch.isChecked
 
-                        if ((now - list[0].time) > TIME_LAPSE - 100) {
-                            if (list[0].actionValue == 2) {
-                                helperClass.nextSong()
-                            } else {
-                                helperClass.previousSong()
-                            }
+            if (!isLoading)
+                saveStateCheckView(isShowMessageOn, keyNameShowMessage)
 
-                            list.clear()
-                        }
-                    }
-                }
+        }
+
+        dropdownShakeNumber.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+
+                Toast.makeText(applicationContext, "selected" + p2, Toast.LENGTH_SHORT).show()
             }
-        }*/
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+            }
+        }
+
     }
 
     private fun rateThisApp() {
@@ -181,14 +160,6 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun saveStateCheckView(currentState: Int, key: String) {
-
-        val editor = sharedPreferences!!.edit()
-        editor.putInt(key, currentState)
-        editor.apply()
-
-    }
-
     private fun loadCheckViewStates() {
 
         isLoading = true
@@ -210,29 +181,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    //var list = LinkedList<ActionRegister>()
-
-    //Inner class to store values such as
-    // action and the time that was created.
-    /*inner class ActionRegister {
-        private var actionValue: Int = 0
-        private var time: Long = 0
-
-        constructor(actionValue: Int, time: Long) {
-            this.actionValue = actionValue
-            this.time = time
-        }
-    }*/
 
     private fun handleShakeEvent(count: Int, time: Long) {
 
         if (count == gShakeCount) {
             helperClass.nextSong()
-            //Toast.makeText(this, "times " + count, Toast.LENGTH_SHORT).show()
-            //list.add(ActionRegister(2, time))
-        } /*else if (count == 3) {
-            list.add(ActionRegister(3, time))
-        }*/
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -255,26 +209,12 @@ class MainActivity : AppCompatActivity() {
     public override fun onResume() {
         super.onResume()
 
-        //hide notification
-        //notHelper!!.cancelNotification()
-
         // Register the Session Manager Listener onResume
         mSensorManager!!.registerListener(mShakeDetector, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL)
     }
 
-    /*
-    override fun onPause() {
-        super.onPause()
-
-        //show Notification
-        notHelper!!.showNotification()
-    }*/
-
     override fun onDestroy() {
         super.onDestroy()
-
-        //hide notification
-        //notHelper!!.cancelNotification()
 
         // Unregister the Session Manager Listener onDestroy
         mSensorManager!!.unregisterListener(mShakeDetector)
