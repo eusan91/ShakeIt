@@ -49,6 +49,7 @@ class MainActivity : AppCompatActivity() {
     private val keyNameVibrate = "VIBRATE_STATE"
     private val keyNameShowMessage = "SM_STATE"
     private val keyNameShakeCount = "SHAKE_CNT"
+    private val keyNameSensibility = "SENSIBILITY_CNT"
     private var sharedPreferences: SharedPreferences? = null
     private var isLoading = false
 
@@ -65,12 +66,11 @@ class MainActivity : AppCompatActivity() {
 
         getViews()
 
-        setListenerToViews()
-
-        //TODO Need to set the gShakeCount somehow just 1 time
-        gShakeCount = sharedPreferences!!.getInt(keyNameShakeCount, 2)
-
         loadCheckViewStates()
+
+        loadProSettings()
+
+        setListenerToViews()
 
         // ShakeDetector initialization
         initShakeDetector()
@@ -135,9 +135,11 @@ class MainActivity : AppCompatActivity() {
         dropdownShakeNumber.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
 
-                val position : Int = p2 + 1
-
-                shakeCountNumberTextView.text =  "$position " + getString(R.string.times_next_song)
+                if (!isLoading) {
+                    val position: Int = p2 + 1
+                    shakeCountNumberTextView.text = "$position " + getString(R.string.times_next_song)
+                    saveStateProSettings(position, keyNameShakeCount)
+                }
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -172,6 +174,14 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    private fun saveStateProSettings(currentState: Int, key: String) {
+
+        val editor = sharedPreferences!!.edit()
+        editor.putInt(key, currentState)
+        editor.apply()
+
+    }
+
     private fun loadCheckViewStates() {
 
         isLoading = true
@@ -180,6 +190,16 @@ class MainActivity : AppCompatActivity() {
         showMessageSwitch.isChecked = isShowMessageOn
 
         vibrateSwitch.isChecked = sharedPreferences!!.getBoolean(keyNameVibrate, false)
+
+        isLoading = false
+    }
+
+    private fun loadProSettings() {
+
+        isLoading = true
+
+        gShakeCount = sharedPreferences!!.getInt(keyNameShakeCount, 2)
+        dropdownShakeNumber.setSelection(gShakeCount-1)
 
         isLoading = false
     }
