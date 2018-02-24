@@ -14,7 +14,7 @@ import com.kobakei.ratethisapp.RateThisApp
 import com.santamaria.shakecontrolspotify.R.id.*
 import com.santamaria.shakecontrolspotify.ShakeDetector.OnShakeListener
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
 
     //HelperClass
     private val helperClass = HelperClass(this)
@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity() {
 
     //variable updated with SharedPreferences in case the user change to 1
     private var gShakeCount = 2
+    private var gSensibility = 2
 
     //Switch view variables
     private lateinit var vibrateSwitch: Switch
@@ -146,6 +147,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        sensibilitySeekBar.setOnSeekBarChangeListener(this)
+
     }
 
     private fun rateThisApp() {
@@ -200,6 +203,10 @@ class MainActivity : AppCompatActivity() {
 
         gShakeCount = sharedPreferences!!.getInt(keyNameShakeCount, 2)
         dropdownShakeNumber.setSelection(gShakeCount-1)
+
+        gSensibility = sharedPreferences!!.getInt(keyNameSensibility, 2)
+        sensibilitySeekBar.progress = gSensibility
+
 
         isLoading = false
     }
@@ -261,5 +268,19 @@ class MainActivity : AppCompatActivity() {
         }
 
         return super.onKeyDown(keyCode, event)
+    }
+
+    override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+
+        if (!isLoading) {
+            Toast.makeText(applicationContext, "test $p1", Toast.LENGTH_LONG).show()
+            saveStateProSettings(p1, keyNameSensibility)
+        }
+    }
+
+    override fun onStartTrackingTouch(p0: SeekBar?) {
+    }
+
+    override fun onStopTrackingTouch(p0: SeekBar?) {
     }
 }
