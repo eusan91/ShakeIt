@@ -7,5 +7,3 @@ si es pro
 habilitar pro settings
 recuperar de sharedPreferences el dropdown
 recuperar del sharedPreferences el sensibility
-
-cuando se cambia el dropdown tambien hay q modificar el textview de lets shake it

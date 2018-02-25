@@ -1,6 +1,7 @@
 package com.santamaria.shakecontrolspotify
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.hardware.Sensor
 import android.hardware.SensorManager
@@ -240,6 +241,9 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
 
         if (item != null && item.itemId == exit_menu_id) {
             helperClass.alertDialogClose()
+        } else if (item != null && item.itemId == pro_menu_id){
+            val intent = Intent(this, ProSettingsActivity::class.java)
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item)

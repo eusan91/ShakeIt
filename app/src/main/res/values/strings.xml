@@ -22,6 +22,7 @@
     <string name="rate_later">Later</string>
     <string name="rate_no">No</string>
     <string name="rate_now">Rate Now</string>
+    <string name="pro_version">PRO version</string>
 
     <string-array name="shake_options">
         <item>1</item>
