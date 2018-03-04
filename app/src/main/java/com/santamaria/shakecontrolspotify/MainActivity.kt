@@ -229,6 +229,7 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
     private fun handleShakeEvent(count: Int) {
 
         if (count == gShakeCount) {
+
             helperClass.nextSong()
         }
     }

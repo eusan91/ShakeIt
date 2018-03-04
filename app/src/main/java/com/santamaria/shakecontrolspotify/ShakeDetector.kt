@@ -4,7 +4,6 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
-import android.util.Log
 
 /**
  * Created by Santamaria on 06/10/2017.
@@ -32,6 +31,7 @@ class ShakeDetector : SensorEventListener {
 
     override fun onSensorChanged(event: SensorEvent) {
 
+
         if (mListener != null) {
 
             val x = event.values[0]
@@ -51,6 +51,11 @@ class ShakeDetector : SensorEventListener {
 
                 // ignore shake events too close to each other (300ms)
                 if (mShakeTimestamp + SHAKE_SLOP_TIME_MS > now) {
+
+                    if (mShakeCount >= MainActivity.gShakeCount){
+                        mShakeCount = 0
+                    }
+
                     return
                 }
 
@@ -66,7 +71,6 @@ class ShakeDetector : SensorEventListener {
                 mShakeCount++
 
                 mListener!!.onShake(mShakeCount)
-
 
             }
         }
