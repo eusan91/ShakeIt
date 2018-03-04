@@ -30,7 +30,9 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
     var isShowMessageOn = true
 
     //variable updated with SharedPreferences in case the user change to 1
-    private var gShakeCount = 2
+    companion object {
+        var gShakeCount = 2
+    }
     private var gSensibility = 2
 
     //Switch view variables
@@ -99,8 +101,8 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         mShakeDetector = ShakeDetector()
         mShakeDetector!!.setOnShakeListener(object : OnShakeListener {
 
-            override fun onShake(count: Int, time: Long) {
-                handleShakeEvent(count, time)
+            override fun onShake(count: Int) {
+                handleShakeEvent(count)
             }
         })
 
@@ -139,9 +141,10 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
 
                 if (!isLoading) {
                     val position: Int = p2 + 1
-                    Toast.makeText(applicationContext, "definicion: $position", Toast.LENGTH_SHORT).show()
-                    shakeCountNumberTextView.text = "$position " + getString(R.string.times_next_song)
                     saveStateProSettings(position, keyNameShakeCount)
+
+                    gShakeCount = position
+
                 }
             }
 
@@ -206,8 +209,6 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         gShakeCount = sharedPreferences!!.getInt(keyNameShakeCount, 2)
         dropdownShakeNumber.setSelection(gShakeCount-1)
 
-        Toast.makeText(applicationContext, "cantidad cargada: $gShakeCount", Toast.LENGTH_SHORT).show()
-
         gSensibility = sharedPreferences!!.getInt(keyNameSensibility, 2)
         sensibilitySeekBar.progress = gSensibility
 
@@ -225,10 +226,9 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
     }
 
 
-    private fun handleShakeEvent(count: Int, time: Long) {
+    private fun handleShakeEvent(count: Int) {
 
         if (count == gShakeCount) {
-            Toast.makeText(applicationContext, "cantidad: $gShakeCount", Toast.LENGTH_SHORT).show()
             helperClass.nextSong()
         }
     }
@@ -281,7 +281,6 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
     override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
 
         if (!isLoading) {
-            Toast.makeText(applicationContext, "test $p1", Toast.LENGTH_LONG).show()
             saveStateProSettings(p1, keyNameSensibility)
         }
     }

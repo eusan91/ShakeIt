@@ -14,13 +14,16 @@ class ShakeDetector : SensorEventListener {
     private var mListener: OnShakeListener? = null
     private var mShakeTimestamp: Long = 0
     private var mShakeCount: Int = 0
+    private val SHAKE_THRESHOLD_GRAVITY = 2f
+    private val SHAKE_SLOP_TIME_MS = 200
+    private val SHAKE_COUNT_RESET_TIME_MS = 1000
 
     fun setOnShakeListener(listener: OnShakeListener) {
         this.mListener = listener
     }
 
     interface OnShakeListener {
-        fun onShake(count: Int, time: Long)
+        fun onShake(count: Int)
     }
 
     override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {
@@ -46,35 +49,26 @@ class ShakeDetector : SensorEventListener {
 
                 val now = System.currentTimeMillis()
 
-                if (mShakeTimestamp == 0L){
-                    mShakeTimestamp = now
-                    mShakeCount++
-                } else {
-                    // ignore shake events too close to each other (200ms)
-                    if (mShakeTimestamp + SHAKE_SLOP_TIME_MS > now) {
-
-                        if (mShakeCount >= 2) {
-                            mShakeCount = 0
-                            mShakeTimestamp = 0L
-                        }
-                    } else if (mShakeTimestamp + SHAKE_COUNT_RESET_TIME_MS < now) {
-                        // reset the shake count after 1.1 seconds of no shakes
-                        mShakeCount = 0
-                        mShakeTimestamp = 0L
-                    } else {
-                        mShakeTimestamp = now
-                        mShakeCount++
-
-                        mListener!!.onShake(mShakeCount, now)
-                    }
+                // ignore shake events too close to each other (300ms)
+                if (mShakeTimestamp + SHAKE_SLOP_TIME_MS > now) {
+                    return
                 }
+
+                // reset the shake count after 1 seconds of no shakes
+                //it will take the last shake time + 1 second
+                //if its less than "now" it has been more than 1 second.
+                if (mShakeTimestamp + SHAKE_COUNT_RESET_TIME_MS < now) {
+                    mShakeCount = 0
+                    mShakeTimestamp = 0L
+                }
+
+                mShakeTimestamp = now
+                mShakeCount++
+
+                mListener!!.onShake(mShakeCount)
+
+
             }
         }
-    }
-
-    companion object {
-        private val SHAKE_THRESHOLD_GRAVITY = 2f
-        private val SHAKE_SLOP_TIME_MS = 200
-        private val SHAKE_COUNT_RESET_TIME_MS = 1000
     }
 }
