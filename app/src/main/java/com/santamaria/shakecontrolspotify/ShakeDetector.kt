@@ -46,24 +46,28 @@ class ShakeDetector : SensorEventListener {
 
                 val now = System.currentTimeMillis()
 
-                // ignore shake events too close to each other (200ms)
-                if (mShakeTimestamp + SHAKE_SLOP_TIME_MS > now) {
+                if (mShakeTimestamp == 0L){
+                    mShakeTimestamp = now
+                    mShakeCount++
+                } else {
+                    // ignore shake events too close to each other (200ms)
+                    if (mShakeTimestamp + SHAKE_SLOP_TIME_MS > now) {
 
-                    if (mShakeCount >= 2){
+                        if (mShakeCount >= 2) {
+                            mShakeCount = 0
+                            mShakeTimestamp = 0L
+                        }
+                    } else if (mShakeTimestamp + SHAKE_COUNT_RESET_TIME_MS < now) {
+                        // reset the shake count after 1.1 seconds of no shakes
                         mShakeCount = 0
+                        mShakeTimestamp = 0L
+                    } else {
+                        mShakeTimestamp = now
+                        mShakeCount++
+
+                        mListener!!.onShake(mShakeCount, now)
                     }
-                    return
                 }
-
-                // reset the shake count after 1.1 seconds of no shakes
-                if (mShakeTimestamp + SHAKE_COUNT_RESET_TIME_MS < now) {
-                    mShakeCount = 0
-                }
-
-                mShakeTimestamp = now
-                mShakeCount++
-
-                mListener!!.onShake(mShakeCount, now)
             }
         }
     }

@@ -139,6 +139,7 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
 
                 if (!isLoading) {
                     val position: Int = p2 + 1
+                    Toast.makeText(applicationContext, "definicion: $position", Toast.LENGTH_SHORT).show()
                     shakeCountNumberTextView.text = "$position " + getString(R.string.times_next_song)
                     saveStateProSettings(position, keyNameShakeCount)
                 }
@@ -205,6 +206,8 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         gShakeCount = sharedPreferences!!.getInt(keyNameShakeCount, 2)
         dropdownShakeNumber.setSelection(gShakeCount-1)
 
+        Toast.makeText(applicationContext, "cantidad cargada: $gShakeCount", Toast.LENGTH_SHORT).show()
+
         gSensibility = sharedPreferences!!.getInt(keyNameSensibility, 2)
         sensibilitySeekBar.progress = gSensibility
 
@@ -225,6 +228,7 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
     private fun handleShakeEvent(count: Int, time: Long) {
 
         if (count == gShakeCount) {
+            Toast.makeText(applicationContext, "cantidad: $gShakeCount", Toast.LENGTH_SHORT).show()
             helperClass.nextSong()
         }
     }
