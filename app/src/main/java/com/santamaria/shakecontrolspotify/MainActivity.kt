@@ -32,8 +32,8 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
     //variable updated with SharedPreferences in case the user change to 1
     companion object {
         var gShakeCount = 2
+        var gSensibility = 1
     }
-    private var gSensibility = 2
 
     //Switch view variables
     private lateinit var vibrateSwitch: Switch
@@ -209,7 +209,7 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         gShakeCount = sharedPreferences!!.getInt(keyNameShakeCount, 2)
         dropdownShakeNumber.setSelection(gShakeCount-1)
 
-        gSensibility = sharedPreferences!!.getInt(keyNameSensibility, 2)
+        gSensibility = sharedPreferences!!.getInt(keyNameSensibility, 1)
         sensibilitySeekBar.progress = gSensibility
 
 
@@ -283,6 +283,7 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
 
         if (!isLoading) {
             saveStateProSettings(p1, keyNameSensibility)
+            gSensibility = p1
         }
     }
 

@@ -13,8 +13,8 @@ class ShakeDetector : SensorEventListener {
     private var mListener: OnShakeListener? = null
     private var mShakeTimestamp: Long = 0
     private var mShakeCount: Int = 0
-    private val SHAKE_THRESHOLD_GRAVITY = 2f
-    private val SHAKE_SLOP_TIME_MS = 200
+    private val sensibilityArray = floatArrayOf(2f, 2.5f, 3f, 3.5f, 4f, 4.5f)
+    private val SHAKE_SLOP_TIME_MS = 250
     private val SHAKE_COUNT_RESET_TIME_MS = 1000
 
     fun setOnShakeListener(listener: OnShakeListener) {
@@ -45,12 +45,12 @@ class ShakeDetector : SensorEventListener {
             val res:Double = (gX * gX + gY * gY + gZ * gZ).toDouble()
             val gForce = Math.sqrt(res)
 
-            if (gForce > SHAKE_THRESHOLD_GRAVITY) {
+            if (gForce > sensibilityArray[MainActivity.gSensibility]) {
 
                 val now = System.currentTimeMillis()
-
+                //Log.d("ema", "$now")
                 // ignore shake events too close to each other (300ms)
-                if (mShakeTimestamp + SHAKE_SLOP_TIME_MS > now) {
+                if (mShakeTimestamp + SHAKE_SLOP_TIME_MS >= now) {
 
                     if (mShakeCount >= MainActivity.gShakeCount){
                         mShakeCount = 0
