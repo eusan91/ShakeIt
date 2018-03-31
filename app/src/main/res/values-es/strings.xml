@@ -23,6 +23,7 @@
     <string name="rate_later">Después</string>
     <string name="rate_no">No</string>
     <string name="rate_now">Calificar</string>
+    <string name="pro_version">Version PRO</string>
 
     <string-array name="shake_options">
         <item>1</item>
