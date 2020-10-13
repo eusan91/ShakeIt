@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.hardware.Sensor
 import android.hardware.SensorManager
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -15,6 +16,10 @@ import com.google.android.gms.ads.MobileAds
 import com.kobakei.ratethisapp.RateThisApp
 import com.santamaria.shakecontrolspotify.R.id.*
 import com.santamaria.shakecontrolspotify.ShakeDetector.OnShakeListener
+import com.spotify.android.appremote.api.ConnectionParams
+import com.spotify.android.appremote.api.Connector
+import com.spotify.android.appremote.api.SpotifyAppRemote
+
 
 class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
 
@@ -58,6 +63,11 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
     private var sharedPreferences: SharedPreferences? = null
     private var isLoading = false
 
+    //spotify credentials
+    private val SPOTIFY_CLIENT_ID = "e6dbd89375c3414fb82aa31b0e95dbd9";
+    private var mSpotifyAppRemote: SpotifyAppRemote? = null
+    private val REDIRECT_URI = "http://com.santamaria.shakeitspotify/callback"
+
     //Ad variables
     private var mAdView: AdView? = null
 
@@ -86,6 +96,36 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         initAdOnView()
 
     }
+
+    override fun onStart() {
+        super.onStart()
+
+        // Set the connection parameters
+
+        // Set the connection parameters
+        val connectionParams = ConnectionParams.Builder(SPOTIFY_CLIENT_ID)
+                .showAuthView(true)
+                .setRedirectUri(REDIRECT_URI)
+                .build()
+
+        SpotifyAppRemote.connect(this, connectionParams, object : Connector.ConnectionListener {
+            override fun onConnected(spotifyAppRemote: SpotifyAppRemote) {
+                mSpotifyAppRemote = spotifyAppRemote
+                Log.d("MainActivity", "Connected! Yay!")
+
+                // Now you can start interacting with App Remote
+                mSpotifyAppRemote?.getPlayerApi()?.play("spotify:playlist:37i9dQZF1EuAvSTwwVRbeG");
+            }
+
+            override fun onFailure(throwable: Throwable) {
+                Log.e("MainActivity", throwable.message, throwable)
+
+                // Something went wrong when attempting to connect! Handle errors here
+            }
+
+        })
+    }
+
 
     private fun initAdOnView(){
 
@@ -211,7 +251,7 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         isLoading = true
 
         gShakeCount = sharedPreferences!!.getInt(keyNameShakeCount, 2)
-        dropdownShakeNumber.setSelection(gShakeCount-1)
+        dropdownShakeNumber.setSelection(gShakeCount - 1)
 
         gSensibility = sharedPreferences!!.getInt(keyNameSensibility, 1)
         sensibilitySeekBar.progress = gSensibility
@@ -267,6 +307,8 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
 
     override fun onDestroy() {
         super.onDestroy()
+
+        SpotifyAppRemote.disconnect(mSpotifyAppRemote);
 
         // Unregister the Session Manager Listener onDestroy
         mSensorManager!!.unregisterListener(mShakeDetector)
