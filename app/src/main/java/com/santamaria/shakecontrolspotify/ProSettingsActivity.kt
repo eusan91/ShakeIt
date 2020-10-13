@@ -1,8 +1,8 @@
 package com.santamaria.shakecontrolspotify
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
 import com.android.billingclient.api.BillingClient
 import com.santamaria.shakecontrolspotify.billing.BillingConstants
 import com.santamaria.shakecontrolspotify.billing.BillingManager
@@ -50,7 +50,7 @@ class ProSettingsActivity : AppCompatActivity(), BillingProvider {
     override fun onResume() {
         super.onResume()
 
-        if (mBillingManager != null && mBillingManager?.billingClientResponseCode == BillingClient.BillingResponse.OK) {
+        if (mBillingManager != null && mBillingManager?.billingClientResponseCode == BillingClient.BillingResponseCode.OK) {
             mBillingManager?.queryPurchases()
         }
     }

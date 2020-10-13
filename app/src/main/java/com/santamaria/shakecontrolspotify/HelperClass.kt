@@ -1,5 +1,6 @@
 package com.santamaria.shakecontrolspotify
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
@@ -17,7 +18,7 @@ class HelperClass (private val activity: MainActivity){
     private val SPOTIFY_PACKAGE_NAME = "com.spotify.music"
 
     private fun vibrate() {
-        var v = activity.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        var v = this.activity.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         v.vibrate(300)
     }
 
@@ -77,15 +78,15 @@ class HelperClass (private val activity: MainActivity){
 
     fun alertDialogClose() {
 
-        val dialog : android.support.v7.app.AlertDialog = android.support.v7.app.AlertDialog.Builder(activity).create()
+        val dialog = AlertDialog.Builder(activity).create()
 
         dialog.setTitle("Shake it - Spotify")
         dialog.setMessage(activity.getString(R.string.exit_message))
-        dialog.setButton(android.support.v7.app.AlertDialog.BUTTON_POSITIVE, "OK",
+        dialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
                 DialogInterface.OnClickListener { _, _ ->
                     activity.finish()
                 })
-        dialog.setButton(android.support.v7.app.AlertDialog.BUTTON_NEGATIVE, activity.getString(R.string.CANCEL_BUTTON),
+        dialog.setButton(AlertDialog.BUTTON_NEGATIVE, activity.getString(R.string.CANCEL_BUTTON),
                 DialogInterface.OnClickListener { _, _ ->
                  //Do nothing
                 })

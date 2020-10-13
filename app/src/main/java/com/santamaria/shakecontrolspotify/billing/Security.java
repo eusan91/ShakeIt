@@ -19,7 +19,6 @@ package com.santamaria.shakecontrolspotify.billing;
 import android.text.TextUtils;
 import android.util.Base64;
 
-import com.android.billingclient.util.BillingHelper;
 
 import java.io.IOException;
 import java.security.InvalidKeyException;
@@ -54,7 +53,8 @@ public class Security {
                                          String signature) throws IOException {
         if (TextUtils.isEmpty(signedData) || TextUtils.isEmpty(base64PublicKey)
                 || TextUtils.isEmpty(signature)) {
-            BillingHelper.logWarn(TAG, "Purchase verification failed: missing data.");
+
+            //BillingHelper.logWarn(TAG, "Purchase verification failed: missing data.");
             return false;
         }
 
@@ -79,7 +79,7 @@ public class Security {
             throw new RuntimeException(e);
         } catch (InvalidKeySpecException e) {
             String msg = "Invalid key specification: " + e;
-            BillingHelper.logWarn(TAG, msg);
+            //BillingHelper.logWarn(TAG, msg);
             throw new IOException(msg);
         }
     }
@@ -98,7 +98,7 @@ public class Security {
         try {
             signatureBytes = Base64.decode(signature, Base64.DEFAULT);
         } catch (IllegalArgumentException e) {
-            BillingHelper.logWarn(TAG, "Base64 decoding failed.");
+            //BillingHelper.logWarn(TAG, "Base64 decoding failed.");
             return false;
         }
         try {
@@ -106,7 +106,7 @@ public class Security {
             signatureAlgorithm.initVerify(publicKey);
             signatureAlgorithm.update(signedData.getBytes());
             if (!signatureAlgorithm.verify(signatureBytes)) {
-                BillingHelper.logWarn(TAG, "Signature verification failed.");
+                //BillingHelper.logWarn(TAG, "Signature verification failed.");
                 return false;
             }
             return true;
@@ -114,9 +114,9 @@ public class Security {
             // "RSA" is guaranteed to be available.
             throw new RuntimeException(e);
         } catch (InvalidKeyException e) {
-            BillingHelper.logWarn(TAG, "Invalid key specification.");
+           // BillingHelper.logWarn(TAG, "Invalid key specification.");
         } catch (SignatureException e) {
-            BillingHelper.logWarn(TAG, "Signature exception.");
+           // BillingHelper.logWarn(TAG, "Signature exception.");
         }
         return false;
     }

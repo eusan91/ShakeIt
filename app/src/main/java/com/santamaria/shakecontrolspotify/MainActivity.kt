@@ -6,11 +6,12 @@ import android.content.SharedPreferences
 import android.hardware.Sensor
 import android.hardware.SensorManager
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.*
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 import com.kobakei.ratethisapp.RateThisApp
 import com.santamaria.shakecontrolspotify.R.id.*
 import com.santamaria.shakecontrolspotify.ShakeDetector.OnShakeListener
@@ -84,13 +85,16 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         //Ad Code
         initAdOnView()
 
-
     }
 
     private fun initAdOnView(){
-        mAdView = findViewById(R.id.adView) as AdView
+
+        MobileAds.initialize(this) {}
+
+        mAdView = findViewById<AdView>(R.id.adView)
         val adRequest = AdRequest.Builder().build()
         mAdView!!.loadAd(adRequest)
+
     }
 
     private fun initShakeDetector(){
@@ -109,11 +113,11 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
     }
 
     private fun getViews(){
-        vibrateSwitch = findViewById(idVibrateSwith) as Switch
-        showMessageSwitch = findViewById(idShowMessageSwitch) as Switch
-        shakeCountNumberTextView = findViewById(idTextViewShakeTimes) as TextView
-        sensibilitySeekBar = findViewById(idSensibilitySeekBar) as SeekBar
-        dropdownShakeNumber = findViewById(idShakeCount) as Spinner
+        vibrateSwitch = findViewById<Switch>(idVibrateSwith)
+        showMessageSwitch = findViewById<Switch>(idShowMessageSwitch)
+        shakeCountNumberTextView = findViewById<TextView>(idTextViewShakeTimes)
+        sensibilitySeekBar = findViewById<SeekBar>(idSensibilitySeekBar)
+        dropdownShakeNumber = findViewById<Spinner>(idShakeCount)
     }
 
     private fun setListenerToViews(){
@@ -242,13 +246,13 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         if (item != null && item.itemId == exit_menu_id) {
             helperClass.alertDialogClose()
         } else if (item != null && item.itemId == pro_menu_id){
             val intent = Intent(this, ProSettingsActivity::class.java)
-            startActivity(intent);
+            startActivity(intent)
         }
 
         return super.onOptionsItemSelected(item)

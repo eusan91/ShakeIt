@@ -18,15 +18,21 @@ package com.santamaria.shakecontrolspotify.billing;
 import android.app.Activity;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.android.billingclient.api.BillingClient;
-import com.android.billingclient.api.BillingClient.BillingResponse;
 import com.android.billingclient.api.BillingClient.FeatureType;
 import com.android.billingclient.api.BillingClient.SkuType;
 import com.android.billingclient.api.BillingClientStateListener;
 import com.android.billingclient.api.BillingFlowParams;
+import com.android.billingclient.api.BillingResult;
 import com.android.billingclient.api.Purchase;
 import com.android.billingclient.api.Purchase.PurchasesResult;
 import com.android.billingclient.api.PurchasesUpdatedListener;
+import com.android.billingclient.api.SkuDetails;
+
+import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -59,6 +65,7 @@ public class BillingManager implements PurchasesUpdatedListener {
     private int mBillingClientResponseCode = BILLING_MANAGER_NOT_INITIALIZED;
 
     private static final String BASE_64_ENCODED_PUBLIC_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAs6kFMIlEvzzdG4hlMr4TRxTDktEPhGmPGBZzcHxmSm2jxhIeZ6FbRg/H2lwGIayVr9R2J20dQVxV3egqee4OR9ZkUN1z4XuwjeB5TYP05wzfvmu+aqsBrkOulD4c4pCN4Ng2orsLJQkQUoC1PrIKa44gOi51jk5IXqc4Fomiy+EGkbVVpO88BVeOSKYDW7xW4ILsToBNII03zVL1RkyCIK+0SZZtMez8eHJfsWz15/X8dRF0vdIY/iVDoJ7/EyCXqG7Ple6PpEapJLTEHA52BgKKfeyMUqvoCuH2kcxQe5hhbMITp7UrruBTdIva3sMmezubFnywdSP4vSHxBTGIswIDAQAB";
+
 
     /**
      * Listener to the updates that happen when purchases list was updated or consumption of the
@@ -95,16 +102,18 @@ public class BillingManager implements PurchasesUpdatedListener {
      * Handle a callback that purchases were updated from the Billing library
      */
     @Override
-    public void onPurchasesUpdated(int resultCode, List<Purchase> purchases) {
-        if (resultCode == BillingResponse.OK) {
-            if (purchases != null){
-                for (Purchase purchase : purchases) {
+    public void onPurchasesUpdated(@NonNull BillingResult billingResult, @Nullable List<Purchase> list) {
+        int resultCode = billingResult.getResponseCode();
+
+        if (resultCode == BillingClient.BillingResponseCode.OK) {
+            if (list != null){
+                for (Purchase purchase : list) {
                     handlePurchase(purchase);
                 }
                 mBillingUpdatesListener.onPurchasesUpdated(mPurchases);
             }
 
-        } else if (resultCode == BillingResponse.USER_CANCELED) {
+        } else if (resultCode == BillingClient.BillingResponseCode.USER_CANCELED) {
         }
     }
 
@@ -115,8 +124,13 @@ public class BillingManager implements PurchasesUpdatedListener {
         Runnable purchaseFlowRequest = new Runnable() {
             @Override
             public void run() {
-                BillingFlowParams purchaseParams = BillingFlowParams.newBuilder()
-                        .setSku(skuId).setType(billingType).build();
+                BillingFlowParams purchaseParams = null;
+                try {
+                    purchaseParams = BillingFlowParams.newBuilder()
+                            .setSkuDetails(new SkuDetails(skuId)).build();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 mBillingClient.launchBillingFlow(mActivity, purchaseParams);
             }
         };
@@ -162,7 +176,7 @@ public class BillingManager implements PurchasesUpdatedListener {
      */
     private void onQueryPurchasesFinished(PurchasesResult result) {
         // Have we been disposed of in the meantime? If so, or bad result code, then quit
-        if (mBillingClient == null || result.getResponseCode() != BillingResponse.OK) {
+        if (mBillingClient == null || result.getResponseCode() != BillingClient.BillingResponseCode.OK) {
             return;
         }
 
@@ -170,7 +184,9 @@ public class BillingManager implements PurchasesUpdatedListener {
 
         // Update the UI and purchases inventory with new list of purchases
         mPurchases.clear();
-        onPurchasesUpdated(BillingResponse.OK, result.getPurchasesList());
+
+        //ed(@NonNull BillingResult billingResult, @Nullable List<Purchase> list) {
+        onPurchasesUpdated(result.getBillingResult(), result.getPurchasesList());
     }
 
     /**
@@ -181,10 +197,10 @@ public class BillingManager implements PurchasesUpdatedListener {
      * </p>
      */
     public boolean areSubscriptionsSupported() {
-        int responseCode = mBillingClient.isFeatureSupported(FeatureType.SUBSCRIPTIONS);
-        if (responseCode != BillingResponse.OK) {
+        int responseCode = mBillingClient.isFeatureSupported(FeatureType.SUBSCRIPTIONS).getResponseCode();
+        if (responseCode != BillingClient.BillingResponseCode.OK) {
         }
-        return responseCode == BillingResponse.OK;
+        return responseCode == BillingClient.BillingResponseCode.OK;
     }
 
     /**
@@ -203,7 +219,7 @@ public class BillingManager implements PurchasesUpdatedListener {
                     PurchasesResult subscriptionResult
                             = mBillingClient.queryPurchases(SkuType.SUBS);
 
-                    if (subscriptionResult.getResponseCode() == BillingResponse.OK) {
+                    if (subscriptionResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
                         purchasesResult.getPurchasesList().addAll(
                                 subscriptionResult.getPurchasesList());
                     } else {
@@ -219,15 +235,15 @@ public class BillingManager implements PurchasesUpdatedListener {
     public void startServiceConnection(final Runnable executeOnSuccess) {
         mBillingClient.startConnection(new BillingClientStateListener() {
             @Override
-            public void onBillingSetupFinished(@BillingResponse int billingResponseCode) {
+            public void onBillingSetupFinished(BillingResult billingResult) {
 
-                if (billingResponseCode == BillingResponse.OK) {
+                if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
                     mIsServiceConnected = true;
                     if (executeOnSuccess != null) {
                         executeOnSuccess.run();
                     }
                 }
-                mBillingClientResponseCode = billingResponseCode;
+                mBillingClientResponseCode = billingResult.getResponseCode();
             }
 
             @Override

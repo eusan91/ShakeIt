@@ -1,11 +1,11 @@
 package com.santamaria.shakecontrolspotify
 
 import android.content.Context
-import android.support.v7.app.NotificationCompat
 import android.content.Context.NOTIFICATION_SERVICE
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Intent
+import androidx.core.app.NotificationCompat
 
 /**
  * Created by Santamaria on 07/10/2017.
@@ -30,7 +30,7 @@ class NotificationHelper(private var context:Context){
                 PendingIntent.FLAG_UPDATE_CURRENT
         )
 
-        val mBuilder = NotificationCompat.Builder(context)
+        val mBuilder = NotificationCompat.Builder(context, "channel_id")
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle("Shake it - Spotify")
                 .setContentText(context.getString(R.string.msg_notification))

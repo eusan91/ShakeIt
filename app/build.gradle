@@ -2,15 +2,22 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 30
     defaultConfig {
         applicationId "com.santamaria.shakeitspotify"
         minSdkVersion 16
-        targetSdkVersion 26
+        targetSdkVersion 30
         versionCode 5
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -34,13 +41,18 @@ dependencies {
     implementation "com.android.support:support-v4:${rootProject.ext.com_android_support}"
     implementation "com.android.support:support-v4:${rootProject.ext.com_android_support}"
 
-    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
-    implementation 'com.google.firebase:firebase-core:16.0.0'
-    implementation 'com.google.firebase:firebase-ads:15.0.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.2'
+    implementation 'com.google.firebase:firebase-core:17.5.1'
+    implementation 'com.google.firebase:firebase-ads:19.4.0'
+    implementation 'com.google.android.gms:play-services-ads:19.4.0'
     implementation 'io.github.kobakei:ratethisapp:1.2.0'
     testImplementation 'junit:junit:4.12'
 
-    implementation 'com.android.billingclient:billing:1.0'
+    implementation 'com.android.billingclient:billing:3.0.1'
+    implementation 'com.android.support:multidex:1.0.3'
+
+    implementation project(':spotify-app-remote')
+    implementation "com.google.code.gson:gson:2.8.5"
 }
 repositories {
     mavenCentral()
